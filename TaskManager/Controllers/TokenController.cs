@@ -21,20 +21,15 @@ namespace TaskManager.Controllers
         [HttpPost("auth")]
         public async Task<IActionResult> Auth([FromBody]TokenRequest model)
         {
-            if (model == null || !ModelState.IsValid)
-            {
-                return new BadRequestResult();
-            }
-
             if (model.grant_type == "password")
             {
                 var accessToken = await _accessToken.GetAccessToken(model);
-                if (accessToken.Item2 == HttpStatusCode.OK)
+                if (accessToken.statusCode == HttpStatusCode.OK)
                 {
-                    return Ok(accessToken.Item1);
+                    return Ok(accessToken.message);
                 }
 
-                return StatusCode((int)accessToken.Item2,accessToken.Item1);
+                return StatusCode((int)accessToken.statusCode, accessToken.message);
             }
             else
             {

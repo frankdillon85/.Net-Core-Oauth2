@@ -60,7 +60,12 @@ namespace TaskManager.Service.Concrete
 
         public string HashPassword(string password)
         {
-            throw new NotImplementedException();
+            return PasswordHash.HashPassword(password);
+        }
+
+        public async Task<User> FindByEmail(string email)
+        {
+            return await _repo.GetByEmail(email);
         }
     }
 }

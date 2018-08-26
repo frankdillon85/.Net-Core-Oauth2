@@ -15,34 +15,34 @@ using Newtonsoft.Json;
 
 namespace TaskManager.Service.Concrete
 {
-    public class AccessTokenService: IAccessTokenService
+    public class AccessTokenService : IAccessTokenService
     {
         private AppSettings _settings;
-        private IUserService _userRepository;
+        private IUserService _userService;
 
         public AccessTokenService(IOptions<AppSettings> settings, IUserService userRepository)
         {
             _settings = settings.Value;
-            _userRepository = userRepository;
+            _userService = userRepository;
         }
 
-        public async Task<Tuple<string, HttpStatusCode>> GetAccessToken(TokenRequest model)
+        public async Task<(string message, HttpStatusCode statusCode)> GetAccessToken(TokenRequest model)
         {
-            var user = (await _userRepository.FindWhere(x => x.Email == model.username)).FirstOrDefault();
+            var user = await _userService.FindByEmail(model.username);
 
-            if (user != null)
+            if (user != null && (_userService.VerifyPassword(model.password, user.Password)))
             {
                 try
                 {
-                    return  Tuple.Create(GetJwt(user.UserId.ToString()), HttpStatusCode.OK);
+                    return (GetJwt(user.UserId.ToString()), HttpStatusCode.OK);
                 }
                 catch (Exception)
                 {
-                    return Tuple.Create("Internal Server Error", HttpStatusCode.InternalServerError);
+                    return ("Internal Server Error", HttpStatusCode.InternalServerError);
                 }
             }
-           
-            return Tuple.Create("User not found", HttpStatusCode.NotFound);
+
+            return ("User not found", HttpStatusCode.NotFound);
         }
 
         private string GetJwt(string client_id)

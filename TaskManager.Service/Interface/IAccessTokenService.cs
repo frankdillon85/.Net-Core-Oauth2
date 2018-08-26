@@ -7,6 +7,6 @@ namespace TaskManager.Service.Interface
 {
     public interface IAccessTokenService
     {
-        Task<Tuple<string, HttpStatusCode>> GetAccessToken(TokenRequest model);
+        Task<(string message, HttpStatusCode statusCode)> GetAccessToken(TokenRequest model);
     }
 }
