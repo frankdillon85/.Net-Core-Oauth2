@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -6,36 +7,44 @@ using TaskManager.Data.DB.Models;
 using TaskManager.Data.Interface;
 using TaskManager.Service.Helpers;
 using TaskManager.Service.Interface;
+using TaskManager.Shared.ViewModels;
 
 namespace TaskManager.Service.Concrete
 {
     public class UserService : IUserService
     {
         private IUserRepository _repo;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository repo)
+        public UserService(IUserRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
-        public async Task AddAsync(User entity)
+        public async Task AddAsync(AuthUserViewModel entity)
         {
-            await _repo.AddAsync(entity);
+            var user = _mapper.Map<User>(entity);
+            await _repo.AddAsync(user);
         }
 
-        public async Task<IEnumerable<User>> FindWhere(Expression<Func<User, bool>> predicate)
+        public async Task<IEnumerable<UserViewModel>> FindWhere(Expression<Func<User, bool>> predicate)
         {
-            return await _repo.FindWhere(predicate);
+            var result = await _repo.FindWhere(predicate);
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(result);
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<UserViewModel>> GetAllAsync()
         {
-            return await _repo.GetAllAsync();
+            var result = await _repo.GetAllAsync();
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(result);
+
         }
 
-        public async Task<User> GetByIdAsync(Guid id)
+        public async Task<UserViewModel> GetByIdAsync(Guid id)
         {
-            return await _repo.GetByIdAsync(id);
+            var user = await _repo.GetByIdAsync(id);
+            return _mapper.Map<UserViewModel>(user);
         }
 
         public async Task SaveAsync()
@@ -43,9 +52,12 @@ namespace TaskManager.Service.Concrete
             await _repo.SaveAsync();
         }
 
-        public async Task<User> UpdateAsync(int id, User entity)
+        public async Task<UserViewModel> UpdateAsync(int id, UserViewModel entity)
         {
-            return await _repo.UpdateAsync(id, entity);
+            var user = _mapper.Map<User>(entity);
+            var result = await _repo.UpdateAsync(id, user);
+
+            return _mapper.Map<UserViewModel>(result);
         }
 
         public void Dispose()
@@ -63,9 +75,10 @@ namespace TaskManager.Service.Concrete
             return PasswordHash.HashPassword(password);
         }
 
-        public async Task<User> FindByEmail(string email)
+        public async Task<AuthUserViewModel> FindByEmail(string email)
         {
-            return await _repo.GetByEmail(email);
+            var result = await _repo.GetByEmail(email);
+            return _mapper.Map<AuthUserViewModel>(result);
         }
     }
 }

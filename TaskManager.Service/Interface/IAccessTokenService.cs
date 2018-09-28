@@ -1,7 +1,6 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using TaskManager.Data.Models.ViewModels;
+using TaskManager.Shared.ViewModels;
 
 namespace TaskManager.Service.Interface
 {

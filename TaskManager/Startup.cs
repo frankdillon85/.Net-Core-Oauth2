@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,10 +11,11 @@ using Microsoft.IdentityModel.Tokens;
 using TaskManager.Data.Concrete;
 using TaskManager.Data.DB.Models;
 using TaskManager.Data.Interface;
-using TaskManager.Data.Models.Settings;
 using TaskManager.Models;
 using TaskManager.Service.Concrete;
 using TaskManager.Service.Interface;
+using TaskManager.Shared.Settings;
+using TaskManager.Shared.ViewModels;
 
 namespace TaskManager
 {
@@ -29,7 +31,19 @@ namespace TaskManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+            services.AddAutoMapper();
+
+            SetUpDependencies(services);
+
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
             ConfigureJwtAuthService(services);
             services.AddMvc(options =>
@@ -40,7 +54,7 @@ namespace TaskManager
             services.AddDbContext<JPVDBContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("TaskManagerDB")));
 
-            SetUpDependencies(services);           
+            
         }
 
         private void SetUpDependencies(IServiceCollection services)
@@ -57,7 +71,7 @@ namespace TaskManager
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseMvc();
         }

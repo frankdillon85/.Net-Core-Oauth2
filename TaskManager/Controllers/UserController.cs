@@ -1,9 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TaskManager.Data.DB.Models;
 using TaskManager.Service.Interface;
+using TaskManager.Shared.ViewModels;
 
 namespace TaskManager.Controllers
 {
@@ -18,7 +16,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]User user)
+        public async Task<IActionResult> Register([FromBody]AuthUserViewModel user)
         {
             var existingUser = await _userService.FindByEmail(user.Email);
 

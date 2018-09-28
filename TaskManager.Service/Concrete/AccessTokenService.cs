@@ -1,17 +1,15 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManager.Data.Interface;
 using System.Net;
 using TaskManager.Service.Interface;
-using TaskManager.Data.Models.Settings;
-using TaskManager.Data.Models.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using TaskManager.Shared.Settings;
+using TaskManager.Shared.ViewModels;
 
 namespace TaskManager.Service.Concrete
 {

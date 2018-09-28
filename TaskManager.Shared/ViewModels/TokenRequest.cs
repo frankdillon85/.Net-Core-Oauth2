@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskManager.Data.Models.ViewModels
+namespace TaskManager.Shared.ViewModels
 {
     public class TokenRequest
     {

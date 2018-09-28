@@ -1,18 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using TaskManager.Service.Interface;
 
 namespace TaskManager.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        IUserService _userService;
+
+        public ValuesController(IUserService userService)
+        {
+            _userService = userService;
+        }
         // GET api/values
         [HttpGet("{id}")]
         [Authorize]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            //User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return "visit by jwt auth";
+            var x = await _userService.GetAllAsync();
+            return Ok(x);
         }
 
         // POST api/values

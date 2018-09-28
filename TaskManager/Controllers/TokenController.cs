@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Data.Models.ViewModels;
 using TaskManager.Models;
 using TaskManager.Service.Interface;
+using TaskManager.Shared.ViewModels;
 
 namespace TaskManager.Controllers
 {

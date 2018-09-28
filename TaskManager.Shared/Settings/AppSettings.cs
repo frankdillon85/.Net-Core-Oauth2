@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Data.Models.Settings
+﻿namespace TaskManager.Shared.Settings
 {
     public class AppSettings
     {
