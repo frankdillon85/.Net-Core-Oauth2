@@ -17,9 +17,9 @@ namespace Oauth.Controllers
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAll()
         {
             try
             {
