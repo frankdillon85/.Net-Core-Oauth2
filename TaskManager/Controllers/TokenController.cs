@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Models;
@@ -23,13 +24,20 @@ namespace TaskManager.Controllers
         {
             if (model.grant_type == "password")
             {
-                var accessToken = await _accessToken.GetAccessToken(model);
-                if (accessToken.statusCode == HttpStatusCode.OK)
+                try
                 {
-                    return Ok(accessToken.message);
-                }
+                    var accessToken = await _accessToken.GetAccessToken(model);
+                    if (accessToken.statusCode == HttpStatusCode.OK)
+                    {
+                        return Ok(accessToken.message);
+                    }
 
-                return StatusCode((int)accessToken.statusCode, accessToken.message);
+                    return StatusCode((int)accessToken.statusCode, accessToken.message);
+                }
+                catch(Exception)
+                {
+                    return StatusCode(500, "An error occurred while authenticating");
+                }
             }
             else
             {

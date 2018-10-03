@@ -30,14 +30,7 @@ namespace TaskManager.Service.Concrete
 
             if (user != null && (_userService.VerifyPassword(model.password, user.Password)))
             {
-                try
-                {
-                    return (GetJwt(user.UserId.ToString()), HttpStatusCode.OK);
-                }
-                catch (Exception)
-                {
-                    return ("Internal Server Error", HttpStatusCode.InternalServerError);
-                }
+                return (GetJwt(user.UserId.ToString()), HttpStatusCode.OK);
             }
 
             return ("User not found", HttpStatusCode.NotFound);

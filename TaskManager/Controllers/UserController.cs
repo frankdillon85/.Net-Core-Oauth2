@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using TaskManager.Service.Interface;
 using TaskManager.Shared.ViewModels;
@@ -13,6 +15,21 @@ namespace TaskManager.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Get(int id)
+        {
+            try
+            {
+                var x = await _userService.GetAllAsync();
+                return Ok(x);
+            }
+            catch(Exception)
+            {
+                return StatusCode(500, "Error retriving all users");
+            }
         }
 
         [HttpPost("register")]
