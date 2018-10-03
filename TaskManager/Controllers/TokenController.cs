@@ -8,7 +8,7 @@ using TaskManager.Shared.ViewModels;
 namespace TaskManager.Controllers
 {
     [Route("api/token")]
-    public class TokenController : Controller
+    public class TokenController : ControllerBase
     {
         private IAccessTokenService _accessToken;
 

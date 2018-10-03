@@ -2,7 +2,7 @@
 
 namespace TaskManager.Shared.ViewModels
 {
-    public class UserViewModel
+    public class UserDTO
     {
         public Guid UserId { get; set; }
         public string Email { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Shared.ViewModels
 {
-    public class AuthUserViewModel : UserViewModel
+    public class AuthUserDTO : UserDTO
     {
         public string Password { get; set; }
     }

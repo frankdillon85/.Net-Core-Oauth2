@@ -9,9 +9,9 @@ namespace TaskManager.Service.Mappings
     {
         public UserProfile()
         {
-            CreateMap<User, UserViewModel>();
-            CreateMap<User, AuthUserViewModel>();
-            CreateMap<IEnumerable<User>, IEnumerable<UserViewModel>>();
+            CreateMap<User, UserDTO>();
+            CreateMap<User, AuthUserDTO>();
+            CreateMap<IEnumerable<User>, IEnumerable<UserDTO>>();
         }
     }
 }

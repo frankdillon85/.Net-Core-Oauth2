@@ -22,29 +22,29 @@ namespace TaskManager.Service.Concrete
             _mapper = mapper;
         }
 
-        public async Task AddAsync(AuthUserViewModel entity)
+        public async Task AddAsync(AuthUserDTO entity)
         {
             var user = _mapper.Map<User>(entity);
             await _repo.AddAsync(user);
         }
 
-        public async Task<IEnumerable<UserViewModel>> FindWhere(Expression<Func<User, bool>> predicate)
+        public async Task<IEnumerable<UserDTO>> FindWhere(Expression<Func<User, bool>> predicate)
         {
             var result = await _repo.FindWhere(predicate);
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(result);
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(result);
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllAsync()
         {
             var result = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(result);
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(result);
 
         }
 
-        public async Task<UserViewModel> GetByIdAsync(Guid id)
+        public async Task<UserDTO> GetByIdAsync(Guid id)
         {
             var user = await _repo.GetByIdAsync(id);
-            return _mapper.Map<UserViewModel>(user);
+            return _mapper.Map<UserDTO>(user);
         }
 
         public async Task SaveAsync()
@@ -52,12 +52,12 @@ namespace TaskManager.Service.Concrete
             await _repo.SaveAsync();
         }
 
-        public async Task<UserViewModel> UpdateAsync(int id, UserViewModel entity)
+        public async Task<UserDTO> UpdateAsync(int id, UserDTO entity)
         {
             var user = _mapper.Map<User>(entity);
             var result = await _repo.UpdateAsync(id, user);
 
-            return _mapper.Map<UserViewModel>(result);
+            return _mapper.Map<UserDTO>(result);
         }
 
         public void Dispose()
@@ -75,10 +75,10 @@ namespace TaskManager.Service.Concrete
             return PasswordHash.HashPassword(password);
         }
 
-        public async Task<AuthUserViewModel> FindByEmail(string email)
+        public async Task<AuthUserDTO> FindByEmail(string email)
         {
             var result = await _repo.GetByEmail(email);
-            return _mapper.Map<AuthUserViewModel>(result);
+            return _mapper.Map<AuthUserDTO>(result);
         }
     }
 }

@@ -65,10 +65,10 @@ namespace TaskManager.Service.Concrete
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var response = new
+            var response = new AccessTokenDTO
             {
-                access_token = encodedJwt,
-                expires_in = (int)TimeSpan.FromMinutes(20).TotalSeconds
+                AccessToken = encodedJwt,
+                ExpiresIn = (int)TimeSpan.FromMinutes(20).TotalSeconds
             };
 
             return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });

@@ -9,14 +9,14 @@ namespace TaskManager.Service.Interface
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserViewModel>> GetAllAsync();
+        Task<IEnumerable<UserDTO>> GetAllAsync();
         bool VerifyPassword(string password, string passwordHash);
         string HashPassword(string password);
-        Task<UserViewModel> GetByIdAsync(Guid id);
-        Task<AuthUserViewModel> FindByEmail(string email);
-        Task<IEnumerable<UserViewModel>> FindWhere(Expression<Func<User, bool>> predicate);
-        Task AddAsync(AuthUserViewModel entity);
-        Task<UserViewModel> UpdateAsync(int id, UserViewModel entity);
+        Task<UserDTO> GetByIdAsync(Guid id);
+        Task<AuthUserDTO> FindByEmail(string email);
+        Task<IEnumerable<UserDTO>> FindWhere(Expression<Func<User, bool>> predicate);
+        Task AddAsync(AuthUserDTO entity);
+        Task<UserDTO> UpdateAsync(int id, UserDTO entity);
         Task SaveAsync();
         void Dispose();
     }

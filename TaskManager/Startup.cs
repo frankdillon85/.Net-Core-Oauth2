@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
 using TaskManager.Data.Concrete;
 using TaskManager.Data.DB.Models;
 using TaskManager.Data.Interface;
@@ -49,7 +50,8 @@ namespace TaskManager
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ValidateModelAttribute());
-            });
+
+            }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             services.AddDbContext<JPVDBContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("TaskManagerDB")));

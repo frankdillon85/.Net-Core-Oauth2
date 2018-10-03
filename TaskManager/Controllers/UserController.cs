@@ -6,7 +6,7 @@ using TaskManager.Shared.ViewModels;
 namespace TaskManager.Controllers
 {
     [Route("api/user")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         IUserService _userService;
 
@@ -16,7 +16,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]AuthUserViewModel user)
+        public async Task<IActionResult> Register([FromBody]AuthUserDTO user)
         {
             var existingUser = await _userService.FindByEmail(user.Email);
 
